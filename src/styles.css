@@ -1,0 +1,187 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap");
+@import "tailwindcss";
+
+/*
+  E-Book Vault — design system adapted from ui-ux-pro-max.
+  Skill recommended: Feature-Rich Showcase, Liquid Glass, Cormorant / Montserrat,
+  complex page motion, brass accent. The brief overrides the skill's light stone
+  palette with noir red and deep shadow. Avoid playful block color.
+*/
+
+@theme {
+  --color-bg: #090607;
+  --color-surface: #14090c;
+  --color-surface-2: #211014;
+  --color-fg: #f6efe8;
+  --color-muted: #cbb8ae;
+  --color-primary: #9f1d32;
+  --color-primary-bright: #e23b52;
+  --color-accent: #c4a15a;
+  --color-border: #3d282c;
+  --color-on-primary: #fff8f4;
+  --color-cover-crimson: #6e1424;
+  --color-cover-ink: #120c10;
+  --color-cover-brass: #3a2c16;
+  --color-cover-wine: #4a1830;
+  --color-cover-ash: #2a2224;
+  --color-cover-blood: #2c0a12;
+  --font-display: "Cormorant", "Iowan Old Style", "Palatino Linotype", serif;
+  --font-sans: "Montserrat", "Avenir Next", "Segoe UI", sans-serif;
+  --radius-vault: 2px;
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  html {
+    background: var(--color-bg);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background: var(--color-bg);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-weight: 400;
+    line-height: 1.55;
+    min-height: 100%;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: var(--color-primary);
+    color: var(--color-on-primary);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  .glass {
+    background: color-mix(in oklab, var(--color-surface) 82%, transparent);
+    border: 1px solid color-mix(in oklab, var(--color-accent) 34%, transparent);
+    backdrop-filter: blur(18px);
+  }
+
+  .vignette {
+    background: radial-gradient(
+      ellipse at 50% 42%,
+      transparent 42%,
+      color-mix(in oklab, var(--color-bg) 48%, transparent) 100%
+    );
+  }
+
+  .rise {
+    animation: rise 780ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+
+  .d1 { animation-delay: 90ms; }
+  .d2 { animation-delay: 180ms; }
+  .d3 { animation-delay: 270ms; }
+  .d4 { animation-delay: 360ms; }
+  .d5 { animation-delay: 450ms; }
+
+  .tome {
+    transform-style: preserve-3d;
+    transition:
+      transform 280ms cubic-bezier(0.2, 0, 0, 1),
+      border-color 200ms ease;
+  }
+
+  .press {
+    transition: scale 150ms ease-out, background-color 200ms ease, border-color 200ms ease, color 200ms ease;
+  }
+
+  .press:active:not(:disabled) {
+    scale: 0.96;
+  }
+
+  .shelf-view {
+    perspective: 1400px;
+  }
+
+  .css-hall {
+    background:
+      radial-gradient(ellipse at 50% 18%, color-mix(in oklab, var(--color-primary-bright) 45%, transparent), transparent 42%),
+      radial-gradient(ellipse at 50% 78%, color-mix(in oklab, var(--color-accent) 16%, transparent), transparent 46%),
+      linear-gradient(90deg, #070406 0%, #1a0a10 18%, #070406 50%, #1a0a10 82%, #070406 100%);
+  }
+
+  .css-door {
+    background: linear-gradient(90deg, #0c0708, #2a1218 40%, #12080c);
+    border: 1px solid color-mix(in oklab, var(--color-accent) 55%, transparent);
+    box-shadow: inset 0 0 0 6px color-mix(in oklab, var(--color-bg) 70%, transparent);
+    transform-origin: center left;
+    transition: transform 1400ms cubic-bezier(0.7, 0, 0.2, 1);
+  }
+
+  .css-door-right {
+    transform-origin: center right;
+  }
+
+  .css-door.is-open {
+    transform: perspective(800px) rotateY(62deg);
+  }
+
+  .css-door-right.is-open {
+    transform: perspective(800px) rotateY(-62deg);
+  }
+
+  .kicker {
+    font-size: 0.75rem;
+    line-height: 1.4;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  .title-shadow {
+    text-shadow:
+      0 10px 28px var(--color-bg),
+      0 2px 8px var(--color-bg);
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rise {
+    animation: none;
+  }
+
+  .css-door,
+  .css-door-right {
+    transition: none;
+  }
+
+  .tome {
+    transition: border-color 200ms ease;
+  }
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .tome:hover {
+    transform: rotateY(-9deg) rotateX(5deg) translateY(-8px);
+  }
+}
